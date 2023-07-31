@@ -1,1 +1,1 @@
-# LinearRegression_PMicAI
+Демо версия Модели линейной регрессии для проекта PMiC Ai

@@ -44,6 +44,31 @@ def main():
     print("MAE финансовых затрат:", mae_price)
     print("MAE времени завершения:", mae_hours)
 
+#____________________________________________________________________________________________________
+    # Предикт для входных данных.
+    input_area = input('Введите площадь объекта: ')
+    input_process_volume = input('Введите объем материала: ')
+    input_process_name = input('Введите название процесса: ')
+
+    #encoding process_name
+    df = pd.DataFrame({"Object_area": [input_area],
+                       "Process_volume": [input_process_volume],
+                       "Название процесса": [input_process_name]})
+    
+    encoded_data = encoder.transform(df[["Название процесса"]])    
+    final_data = pd.concat([pd.DataFrame(encoded_data.toarray()), df[['Object_area', 'Process_volume']]], axis = 1)
+    final_data.columns = final_data.columns.astype(str)
+    
+    predict_price = model.predict_price(final_data)
+    predict_hours = model.predict_hours(final_data)
+    
+    
+    result_message = print(f'''
+Модель предсказывает финансовые затраты: {int(predict_price)} рублей.
+Модель предсказывает затраты часов на работу: {int(predict_hours)} часов.
+    ''')
+    return result_message
+
 # иф нейм равно мэйн :) 
 if __name__ == "__main__":
     main()

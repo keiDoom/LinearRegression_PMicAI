@@ -51,11 +51,11 @@ def predict():
     final_data = pd.concat([pd.DataFrame(input_data_encoded.toarray()), input_data[['Object_area', 'Process_volume']]], axis=1)
     final_data.columns = final_data.columns.astype(str)
 
-    # Предиктим результаты
+    # Предиктим результаты.
     predicted_price = model.predict_price(final_data)
     predicted_hours = model.predict_hours(final_data)
 
-    # Возвращаем результат в формате JSON
+    # Возвращаем результат в формате JSON.
     result = {
         'predicted_price': predicted_price.tolist(),
         'predicted_hours': predicted_hours.tolist()

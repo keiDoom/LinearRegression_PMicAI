@@ -32,7 +32,7 @@ def main():
     
     # Разделяем данные на обучающую и тестовую выборку
     X_train, X_test, y_train_price, y_test_price, y_train_hours, y_test_hours = train_test_split(
-        X_final, y_price, y_hours, test_size=0.2, random_state=42)
+        X_final, y_price, y_hours, test_size=0.1, random_state=42)
 
     # Фитим модель
     model.fit(X_train, X_test, y_train_price, y_test_price, y_train_hours, y_test_hours)

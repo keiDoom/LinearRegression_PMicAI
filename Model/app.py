@@ -58,7 +58,10 @@ def predict():
     predicted_hours = model.predict_hours(final_data)
 
     # Возвращаем результат в формате JSON.
-    result = predicted_price.tolist() + predicted_hours.tolist()
+    result = {
+    "predicted_hours": predicted_hours[0],
+    "predicted_price": predicted_price[0]
+}
 
     return jsonify(result)
 

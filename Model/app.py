@@ -21,6 +21,9 @@ encoder = OneHotEncoder()
 def predict():
     data = request.get_json()
 
+    # Получите данные ввода непосредственно из запроса
+    input_data = pd.DataFrame([data])
+
     # Загружаем данные и предобрабатываем их
     df = load_data(Config.DATA_FILE_PATH)
     df = process_string_columns(df, ['Final_price', 'Hum_hours'])
@@ -44,7 +47,6 @@ def predict():
     model.fit(X_train, X_test, y_train_price, y_test_price, y_train_hours, y_test_hours)
 
     # Получаем данные для предсказания из запроса
-    input_data = pd.DataFrame(data['input_data'])
     input_data = process_string_columns(input_data, ['Object_area'])
     input_data_encoded = encoder.transform(input_data[["Название процесса"]])
     
@@ -56,10 +58,7 @@ def predict():
     predicted_hours = model.predict_hours(final_data)
 
     # Возвращаем результат в формате JSON.
-    result = {
-        'predicted_price': predicted_price.tolist(),
-        'predicted_hours': predicted_hours.tolist()
-    }
+    result = predicted_price.tolist() + predicted_hours.tolist()
 
     return jsonify(result)
 

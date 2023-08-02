@@ -1,0 +1,6 @@
+1. Переходим в папку со всеми файлами (текущая)
+2. Используем терминал и вводим команду: docker build -t model_app .
+3. Запускаем из докера app.py используя комманду: docker run -p 5000:5000 model_app
+4. И теперь используем POST запрос для отправки данных в модель, например комманду:
+curl -X POST -H "Content-Type: application/json" -d '{"input_data": [{"Object_area": "26178", "Process_volume": "13612.56", "Название процесса": "ОВ2 (воздуховоды)"}]}' http://localhost:5000/predict
+

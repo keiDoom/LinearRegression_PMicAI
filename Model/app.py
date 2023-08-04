@@ -5,15 +5,20 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from config import Config
 import pandas as pd
+from flask_cors import CORS
+
+
 
 app = Flask(__name__)
+CORS(app)
 
 # Создаем экземпляр модели
 model = Model()
 model.create_model()
 
-# Создаем экземпляр для OHE
+# Создаем экземпляр для OHxE
 encoder = OneHotEncoder()
+
 
 
 @app.route('/predict', methods=['POST'])
@@ -59,8 +64,8 @@ def predict():
 
     # Возвращаем результат в формате JSON.
     result = {
-    "predicted_hours": predicted_hours[0],
-    "predicted_price": predicted_price[0]
+    "predicted_hours": int(predicted_hours[0]),
+    "predicted_price": int(predicted_price[0])
 }
 
     return jsonify(result)

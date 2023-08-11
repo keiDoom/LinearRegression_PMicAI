@@ -10,7 +10,8 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app)
+
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Создаем экземпляр модели
 model = Model()
@@ -20,6 +21,13 @@ model.create_model()
 encoder = OneHotEncoder()
 
 
+
+@app.after_request
+def add_header(response):
+
+    response.headers['Cache-Control'] = 'no-store'
+
+    return response
 
 @app.route('/predict', methods=['POST'])
 

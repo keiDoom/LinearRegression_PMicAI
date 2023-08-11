@@ -5,7 +5,7 @@ from train import main
 
 def main():
      # Загружаем данные и предобрабатываем их
-    data = load_data(Config.DATA_FILE_PATH)
+    data = load_data(Config.DATA_FILE_PATH_local)
     df = process_string_columns(data, ['Final_price', 'Hum_hours', 'Process_volume'])
 
     # Определяем признаки и целевую переменную (таргет)
@@ -29,11 +29,11 @@ def main():
     
     # Разделяем данные на обучающую и тестовую выборку
     X_train, X_test, y_train_price, y_test_price, y_train_hours, y_test_hours = train_test_split(
-        X_final, y_price, y_hours, test_size=0.1, random_state=42)
+        X_final, y_price, y_hours, test_size=0.2, random_state=42)
 
     # Фитим модель
     model.fit(X_train, X_test, y_train_price, y_test_price, y_train_hours, y_test_hours)
-
+    
     # Предиктим результаты
     y_pred_price = model.predict_price(X_test)
     y_pred_hours = model.predict_hours(X_test)
@@ -65,6 +65,7 @@ def main():
 Модель предсказывает финансовые затраты: {int(predict_price)} рублей.
 Модель предсказывает затраты часов на работу: {int(predict_hours)} часов.
     ''')
+
     return result_message
 
 # иф нейм равно мэйн :) 

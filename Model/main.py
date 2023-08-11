@@ -5,7 +5,7 @@ from train import main
 
 def main():
      # Загружаем данные и предобрабатываем их
-    data = load_data(Config.DATA_FILE_PATH_local)
+    data = load_data(Config.DATA_FILE_PATH)
     df = process_string_columns(data, ['Final_price', 'Hum_hours', 'Process_volume'])
 
     # Определяем признаки и целевую переменную (таргет)

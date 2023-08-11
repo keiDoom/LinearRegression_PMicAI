@@ -31,7 +31,10 @@ def add_header(response):
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json['input_data']
+    data = request.get_json()
+
+    # Получите данные ввода непосредственно из запроса
+    input_data = pd.DataFrame(data=[data], columns=['Object_area', 'Название процесса'])
 
     # Загружаем данные и предобрабатываем их
     df = load_data(Config.DATA_FILE_PATH)
@@ -39,9 +42,6 @@ def predict():
 
     # Определяем признаки и целевую переменную (таргет)
     X = df[["Object_area", "Название процесса"]]
-
-    # Получаем данные для предсказания из запроса
-    input_data = pd.DataFrame(data)
     
     # Обучаем кодировщик OneHotEncoder
     encoder.fit(X[["Название процесса"]])

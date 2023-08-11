@@ -23,6 +23,12 @@ encoder = OneHotEncoder()
 
 
 @app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type, Access-Control-Allow-Headers'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    return response
+
 def add_header(response):
 
     response.headers['Cache-Control'] = 'no-store'

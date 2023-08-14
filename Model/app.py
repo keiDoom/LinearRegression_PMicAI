@@ -5,18 +5,20 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from config import Config
 import pandas as pd
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
 
 
 
 app = Flask(__name__)
-
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+
 
 # Создаем экземпляр модели
 model = Model()
 model.create_model()
-
 # Создаем экземпляр для OHxE
 encoder = OneHotEncoder()
 
@@ -28,14 +30,24 @@ def add_cors_headers(response):
     response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type, Access-Control-Allow-Headers'
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
     return response
-
 def add_header(response):
-
     response.headers['Cache-Control'] = 'no-store'
-
     return response
 
+
 @app.route('/predict', methods=['POST'])
+def proxy():
+    url = 'http://194.58.98.29/predict'  # Адрес сервера, на который перенаправляется запрос
+    headers = request.headers
+    data = request.get_data()
+    cookies = request.cookies
+
+    # Выполняем проксирование запроса на указанный адрес
+    response = requests.post(url, headers=headers, data=data, cookies=cookies, allow_redirects=False)
+
+    # Возвращаем содержимое ответа
+    return response.text
+
 def predict():
     data = request.get_json()
 

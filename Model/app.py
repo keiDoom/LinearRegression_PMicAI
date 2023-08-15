@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from model import Model
 from data import load_data, process_string_columns
 from sklearn.preprocessing import OneHotEncoder
@@ -83,5 +83,9 @@ def predict():
 
     return jsonify(result)
 
+@app.route('/', methods=['GET'])
+def https_redirect():
+    return redirect("https://194-58-98-29.cloudvps.regruhosting.ru:5000/predict")
+
 if __name__ == '__main__':
-    app.run(host='194-58-98-29.cloudvps.regruhosting.ru', debug=True, ssl_context='adhoc')
+    app.run(host='194.58.98.29', port=5000)

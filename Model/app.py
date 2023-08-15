@@ -84,4 +84,4 @@ def predict():
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(host='194-58-98-29.cloudvps.regruhosting.ru', debug=True, ssl_context='adhoc')

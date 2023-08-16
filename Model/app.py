@@ -10,7 +10,6 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Создаем экземпляр модели
@@ -20,20 +19,20 @@ model.create_model()
 # Создаем экземпляр для OHxE
 encoder = OneHotEncoder()
 
-
-
 @app.after_request
 def add_cors_headers(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type, Access-Control-Allow-Headers'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, HEAD'
     return response
 
 def add_header(response):
-
     response.headers['Cache-Control'] = 'no-store'
-
     return response
+
+@app.route('/', methods=['GET'])
+def https_redirect():
+    return redirect("https://194-58-98-29.cloudvps.regruhosting.ru:5000/predict")
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -82,10 +81,6 @@ def predict():
 }
 
     return jsonify(result)
-
-@app.route('/', methods=['GET'])
-def https_redirect():
-    return redirect("https://194-58-98-29.cloudvps.regruhosting.ru:5000/predict")
 
 if __name__ == '__main__':
     app.run(host='194.58.98.29', port=5000)
